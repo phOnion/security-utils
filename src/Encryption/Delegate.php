@@ -14,7 +14,7 @@ class Delegate implements Interfaces\Delegate
      */
     private $encrypter;
 
-    public function __construct(Interfaces\Algorithm $signer = null, Interfaces\Algorithm $encrypter = null)
+    public function __construct(Interfaces\HashAlgorithm $signer = null, Interfaces\EncryptionAlgorithm $encrypter = null)
     {
         $this->signer = $signer;
         $this->encrypter = $encrypter;
