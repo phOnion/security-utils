@@ -15,4 +15,9 @@ trait CommonHSLogic
     {
         return hash_hmac($this->getAlgoIdentifier(), $data, $this->key, true);
     }
+
+    public function verify(string $data, string $signature): bool
+    {
+        return hash_equals($this->sign($data), $signature);
+    }
 }
