@@ -3,6 +3,12 @@
         "roave/security-advisories": "dev-master",
         "http-interop/http-middleware": "dev-master"
     },
+    "require-dev": {
+        "sop/aes-kw": "^1.0"
+    },
+    "suggest": {
+        "sop/aes-kw": "To allow usage of KAxxx (Key-Wrapping AES) algorithms"
+    },
     "autoload": {
         "psr-4": {
             "Onion\\Security\\": "src/"
