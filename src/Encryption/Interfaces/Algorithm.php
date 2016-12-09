@@ -42,7 +42,31 @@ interface Algorithm
      */
     public function sign(string $data): string;
 
+    /**
+     * Verify the signature ot the $data provided
+     *
+     * @param string $data The data of which the signature should be validated
+     * @param string $signature The signature against which to verify
+     *
+     * @return bool Whether or not the signature is valid for the data provided
+     */
+    public function verify(string $data, string $signature): bool;
+
+    /**
+     * Encrypt the provided data
+     *
+     * @param string $data Data to encrypt
+     *
+     * @param string The ciphertext
+     */
     public function encrypt(string $data): string;
 
+    /**
+     * Decrypts the provided data
+     *
+     * @param string $data The ciphertext to decrypt
+     *
+     * @return string The decrypted data
+     */
     public function decrypt(string $data): string;
 }
