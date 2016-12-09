@@ -11,16 +11,6 @@ trait CommonHSLogic
         $this->key = $secret;
     }
 
-    public function encrypt(string $data): string
-    {
-        return $data;
-    }
-
-    public function decrypt(string $data): string
-    {
-        return $data;
-    }
-
     public function sign(string $data): string
     {
         return hash_hmac($this->getAlgoIdentifier(), $data, $this->key, true);

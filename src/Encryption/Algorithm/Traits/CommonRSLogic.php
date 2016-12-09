@@ -6,62 +6,34 @@ trait CommonRSLogic
 {
     protected $publicKey;
     protected $privateKey;
-    protected $strategy;
 
-    public function __construct(string $public, string $private, int $strategy = self::STRATEGY_PRIVATE_ENCRYPT)
+    public function __construct(string $public, string $private)
     {
         if (!extension_loaded('openssl')) {
             throw new \RuntimeException(
-                'OpenSSL extension is required to do asymetric encryption'
+                'OpenSSL extension is required to Generate RSA signatures'
             );
         }
 
-        $this->publicKey = openssl_pkey_get_public($public);
-        if ($this->publicKey === false) {
-            throw new \InvalidArgumentException('Inavlid public key');
-        }
-        $this->privateKey = openssl_pkey_get_private($private);
-        if ($this->privateKey === false) {
-            throw new \InvalidArgumentException('Inavlid private key');
-        }
-
-        $this->strategy = $strategy;
+        $this->publicKey = $public;
+        $this->privateKey = $private;
     }
 
-    public function encrypt(string $data): string
+    public function getPublicKey(): string
     {
-        $cyphertext = null;
-        if ($this->strategy === self::STRATEGY_PRIVATE_ENCRYPT) {
-            openssl_private_encrypt($data, $cyphertext, $this->privateKey);
-        }
-
-        if ($this->strategy === self::STRATEGY_PUBLIC_ENCRYPT) {
-            openssl_public_encrypt($data, $cyphertext, $this->publicKey);
-        }
-
-        return $cyphertext;
-    }
-
-    public function decrypt(string $data): string
-    {
-        $decrypted = null;
-
-        if ($this->strategy === self::STRATEGY_PRIVATE_ENCRYPT) {
-            openssl_public_decrypt($data, $decrypted, $this->publicKey);
-        }
-
-        if ($this->strategy === self::STRATEGY_PUBLIC_ENCRYPT) {
-            openssl_private_decrypt($data, $decrypted, $this->privateKey);
-        }
-
-        return $decrypted;
+        return $this->publicKey;
     }
 
     public function sign(string $token): string
     {
         $signature = null;
-        openssl_sign($token, $signature, $this->privateKey, (int) $this->getAlogIdentifier());
+        openssl_sign($token, $signature, openssl_get_privatekey($this->getPrivateKey()), (int) $this->getAlogIdentifier());
 
         return $signature;
+    }
+
+    public function verify(string $data, string $signature): bool
+    {
+        return openssl_verify($data, $signature, openssl_get_publickey($this->getPublicKey()), (int) $this->getAlgoIdentifier());
     }
 }
