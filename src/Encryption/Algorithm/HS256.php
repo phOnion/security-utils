@@ -4,7 +4,7 @@ namespace Onion\Security\Encryption\Algorithm;
 
 use Onion\Security\Encryption\Interfaces\Algorithm;
 
-class HS256 implements Algorithm
+class HS256 implements HashAlgorithm
 {
     use Traits\CommonHSLogic;
 

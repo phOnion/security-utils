@@ -19,10 +19,27 @@ trait CommonAESLogic
     /**
      * @param string $key The key to use for encryption/decryption
      */
-    public function __construct(string $key, string $vector)
+    public function __construct(string $key = null, string $vector = null)
     {
         $this->key = $key;
         $this->vector = $vector;
+    }
+
+    public function getInitializationVector(): string
+    {
+        if (null === $this->vector) {
+            $secure = true;
+            $this->vector = openssl_random_pseudo_bytes(
+                openssl_cipher_iv_length($this->getAlgoIdentifier()),
+                $secure
+            );
+
+            if (!$secure) {
+                trigger_error('Generated IV is not cryptographically secure', PHP_USER_WARNING);
+            }
+        }
+
+        return $this->vector;
     }
 
     public function encrypt(string $data): string

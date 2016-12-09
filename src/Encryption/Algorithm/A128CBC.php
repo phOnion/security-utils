@@ -4,7 +4,7 @@ namespace Onion\Security\Encryption\Algorithm;
 
 use Onion\Security\Encryption\Interfaces\Algorithm;
 
-class A128CBC implements Algorithm
+class A128CBC implements SymmetricAlgorithm
 {
     use Traits\CommonAESLogic;
 
@@ -16,5 +16,19 @@ class A128CBC implements Algorithm
     public function getAlgoIdentifier(): string
     {
         return 'AES-128-CBC';
+    }
+
+    public function getKey(): string
+    {
+        if (null === $this->key) {
+            $secure = true;
+            $this->key = openssl_random_pseudo_bytes(16, $secure);
+
+            if (!$secure) {
+                trigger_error('Generated key is not cryptographically secure', PHP_USER_WARNING);
+            }
+        }
+
+        return $this->key;
     }
 }
