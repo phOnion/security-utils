@@ -6,6 +6,9 @@
     "autoload": {
         "psr-4": {
             "Onion\\Security\\": "src/"
-        }
+        },
+        "files": [
+            "src/functions.php"
+        ]
     }
 }
