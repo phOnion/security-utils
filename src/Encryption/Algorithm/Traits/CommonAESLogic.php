@@ -51,10 +51,4 @@ trait CommonAESLogic
     {
         return openssl_decrypt($data, $this->getAlgoIdentifier(), $this->key, OPENSSL_RAW_DATA, $this->vector);
     }
-
-
-    public function sign(string $data): string
-    {
-        throw new \RuntimeException('Can\'t use "' . $this->getName() . '" for signing.');
-    }
 }
