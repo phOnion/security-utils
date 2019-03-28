@@ -24,10 +24,10 @@ trait CommonRSLogic
         return $this->publicKey;
     }
 
-    public function sign(string $token): string
+    public function sign(string $token, string $keyPassword = ''): string
     {
         $signature = null;
-        openssl_sign($token, $signature, openssl_get_privatekey($this->getPrivateKey()), (int) $this->getAlogIdentifier());
+        openssl_sign($token, $signature, openssl_get_privatekey($this->getPrivateKey(), $keyPassword), (int) $this->getAlogIdentifier());
 
         return $signature;
     }

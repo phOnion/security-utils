@@ -2,15 +2,18 @@
 declare(strict_types=1);
 namespace Onion\Security\Encryption\Algorithms;
 
-use Onion\Security\Encryption\Interfaces\SymmetricEncryption;
+use Onion\Security\Encryption\Interfaces\SymmetricAlgorithm;
+use Onion\Security\Encryption\Algorithm\Traits\CommonAESLogic;
 
-class KA128 extends AESKW\AESKW128
+class KA128 extends \AESKW\AESKW128 implements SymmetricAlgorithm
 {
     private $key;
 
+    use CommonAESLogic;
+
     public function __construct(string $kek = '')
     {
-        parent::__construct();
+        parent::__construct($this->getInitializationVector());
         $this->key = $kek;
     }
 
@@ -32,19 +35,13 @@ class KA128 extends AESKW\AESKW128
         return $this->key;
     }
 
-    public function getInitializationVector(): string
-    {
-        trigger_error('Algorithm A128KW does not use IV', PHP_USER_NOTICE);
-        return '';
-    }
-
     public function encrypt(string $data): string
     {
-        return $this->wrap($data, $this->getKey());
+        return $this->wrapPad($data, $this->getKey());
     }
 
-    public function decrypt(string $ciphertext): string
+    public function decrypt(string $data): string
     {
-        return $this->unwrap($data, $this->getKey());
+        return $this->unwrapPad($data, $this->getKey());
     }
 }

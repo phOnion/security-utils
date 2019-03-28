@@ -11,7 +11,7 @@ interface EncryptionAlgorithm extends Algorithm
      *
      * @return string The ciphertext
      */
-    public function encrypt(string $plaintext): string;
+    public function encrypt(string $plaintext, string &$tag, string $aad = ''): string;
 
     /**
      * Decrypts the provided $ciphertext
@@ -20,5 +20,5 @@ interface EncryptionAlgorithm extends Algorithm
      *
      * @return string the plaintext
      */
-    public function decrypt(string $ciphertext): string;
+    public function decrypt(string $ciphertext, string $tag = '', string $aad = ''): string;
 }

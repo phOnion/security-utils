@@ -42,13 +42,29 @@ trait CommonAESLogic
         return $this->vector;
     }
 
-    public function encrypt(string $data): string
+    public function encrypt(string $data, string &$tag = null, string $aad = ''): string
     {
-        return openssl_encrypt($data, $this->getAlgoIdentifier(), $this->key, OPENSSL_RAW_DATA, $this->vector);
+        return openssl_encrypt(
+            $data,
+            $this->getAlgoIdentifier(),
+            $this->key,
+            OPENSSL_RAW_DATA,
+            $this->vector,
+            $tag,
+            $aad
+        );
     }
 
-    public function decrypt(string $data): string
+    public function decrypt(string $data, string $tag = '', string $aad = ''): string
     {
-        return openssl_decrypt($data, $this->getAlgoIdentifier(), $this->key, OPENSSL_RAW_DATA, $this->vector);
+        return openssl_decrypt(
+            $data,
+            $this->getAlgoIdentifier(),
+            $this->key,
+            OPENSSL_RAW_DATA,
+            $this->vector,
+            $tag,
+            $aad
+        );
     }
 }

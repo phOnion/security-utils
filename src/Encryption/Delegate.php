@@ -2,6 +2,8 @@
 declare(strict_types=1);
 namespace Onion\Security\Encryption;
 
+use Onion\Security\Encryption\Interfaces\Algorithm;
+
 class Delegate implements Interfaces\Delegate
 {
     /**

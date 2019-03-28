@@ -2,7 +2,7 @@
 declare(strict_types=1);
 namespace Onion\Security\Encryption\Interfaces;
 
-interface AsymmetricEncryption extends EncryptionAlgorithm
+interface AsymmetricAlgorithm extends EncryptionAlgorithm
 {
     /**
      * (Case specific)
@@ -15,7 +15,7 @@ interface AsymmetricEncryption extends EncryptionAlgorithm
      * Encrypt using the public key and decrypt using the private key
      */
     const STRATEGY_PUBLIC_ENCRYPT  = 2;
-    
+
     /**
      * Retrun the public key used for encryption
      *

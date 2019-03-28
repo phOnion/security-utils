@@ -7,7 +7,7 @@ use Onion\Security\Encryption\Interfaces\Algorithm;
 class A256CBC implements SymmetricAlgorithm
 {
     use Traits\CommonAESLogic;
-    
+
     public function getName(): string
     {
         return 'A256CBC';
@@ -25,7 +25,7 @@ class A256CBC implements SymmetricAlgorithm
             $this->key = openssl_random_pseudo_bytes(32, $secure);
 
             if (!$secure) {
-                trigger_error('Generated key is not cryptographically secure', PHP_USER_WARNING);
+                trigger_error('Generated key is not crypto secure', PHP_USER_WARNING);
             }
         }
 
