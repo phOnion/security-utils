@@ -9,7 +9,7 @@ class Manager
     private $defaultHeader = [];
     private $algo;
 
-    public function __construct(Interfaces\Algorithm $algo, array $defaultHeader = [])
+    public function __construct(Interfaces\HashAlgorithm $algo, array $defaultHeader = [])
     {
         $this->algo = $algo;
         $this->defaultHeader['alg'] = $algo->getName();
@@ -38,7 +38,7 @@ class Manager
         $claims = base64_urldecode($claims);
 
         if (!isset($claims['nbf'])) {
-            trigger_error('JWT token does not provide "nbf" claim', PHP_USER_NOTICE);
+            trigger_error('JWT token does not provide "nbf" claim', E_USER_NOTICE);
         } elseif ($claims['nbf'] > time()) {
             throw new \LogicException(
                 'JWT token provides "nbf" claim which has not been met (token used before it is supposed to)'
@@ -46,21 +46,21 @@ class Manager
         }
 
         if (!isset($claims['exp'])) {
-            trigger_error('JWT token does not provide "exp" claim (might present a sec issue)', PHP_USER_WARNING);
+            trigger_error('JWT token does not provide "exp" claim (might present a sec issue)', E_USER_WARNING);
         } elseif ($claims['exp'] >= time()) {
             return false;
         }
 
         if (!isset($claims['iat'])) {
-            trigger_error('JWT token does not provide "iat" claim', PHP_USER_NOTICE);
+            trigger_error('JWT token does not provide "iat" claim', E_USER_NOTICE);
         }
 
         if (!isset($claims['aud'])) {
-            trigger_error('JWT token does not provide "aud" claim', PHP_USER_NOTICE);
+            trigger_error('JWT token does not provide "aud" claim', E_USER_NOTICE);
         }
 
         if (!isset($claims['iss'])) {
-            trigger_error('JWT token does not provide "iss" claim', PHP_USER_NOTICE);
+            trigger_error('JWT token does not provide "iss" claim', E_USER_NOTICE);
         }
 
         return true;
